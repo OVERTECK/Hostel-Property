@@ -16,6 +16,8 @@
 
         public required int RoomId { get; set; }
 
+        public required Room Room { get; set; }
+
         public List<Subject>? Subjects { get; set; }
     }
 }

@@ -6,5 +6,5 @@ public class Room
 
     public List<Resident>? Residents { get; set; }
 
-    public List<RoomSubject>? Subjects { get; set; }
+    public List<RoomSubject>? RoomSubjects { get; set; }
 }
