@@ -13,7 +13,7 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
         builder.
             HasMany(r => r.Residents)
             .WithOne(r => r.Room)
-            .HasForeignKey(r => r.RoomId);
+            .HasForeignKey(r => r.RoomNumber);
 
         builder.
             HasMany(r => r.RoomSubjects)

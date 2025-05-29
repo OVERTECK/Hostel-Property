@@ -14,10 +14,10 @@
 
         public int NumberCourse { get; set; }
 
-        public required int RoomId { get; set; }
+        public required int RoomNumber { get; set; }
 
-        public required Room Room { get; set; }
+        public Room? Room { get; set; }
 
-        public List<Subject>? Subjects { get; set; }
+        public List<Subject>? Subjects { get; set; } = [];
     }
 }

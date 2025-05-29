@@ -1,4 +1,6 @@
+using HostelProperty.API.Endpoints;
 using HostelProperty.DataAccess;
+using HostelProperty.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<ResidentRepository>();
 var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
 
 builder.Services.AddDbContext<MyDbContext>(
@@ -27,5 +29,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.MapResidentEndpoints();
 
 app.Run();
