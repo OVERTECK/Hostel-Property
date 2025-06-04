@@ -16,14 +16,16 @@ namespace HostelProperty.DataAccess
         {
             
         }
-
         public DbSet<Resident> Residents { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomSubject> RoomSubjects { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ResidedntConfiguration());
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
             modelBuilder.ApplyConfiguration(new RoomSubjectConfiguration());

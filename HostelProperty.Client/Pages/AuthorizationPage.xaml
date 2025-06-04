@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HostelProperty.Client.Pages.AuthorizationPage"
+             Title="AuthorizationPage">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30,60,30,30" VerticalOptions="Center">
+
+            <Label Text="Вход в систему"
+                   FontSize="Title"
+                   HorizontalOptions="Center"/>
+
+            <!-- Поле логина -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Почта"
+                       FontSize="Caption"/>
+                <Entry x:Name="UsernameEntry"
+                       Placeholder="Введите почту"
+                       Keyboard="Email"
+                       ClearButtonVisibility="WhileEditing"/>
+            </VerticalStackLayout>
+
+            <!-- Поле пароля -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Пароль"
+                       FontSize="Caption"/>
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Введите пароль"
+                       IsPassword="True"
+                       ClearButtonVisibility="WhileEditing"
+                       Completed="OnLoginClicked"/>
+
+                <!-- Чекбокс показать пароль -->
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="ShowPasswordCheckBox"
+                              CheckedChanged="OnShowPasswordChanged"/>
+                    <Label Text="Показать пароль"
+                           FontSize="Caption"
+                           VerticalOptions="Center">
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Кнопка авторизации -->
+            <Button x:Name="LoginButton"
+                    Text="Авторизоваться"
+                    Clicked="OnLoginClicked"
+                    Margin="0,20,0,0"/>
+
+            <!-- Индикатор загрузки -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                              IsVisible="False"
+                              IsRunning="False"
+                              HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

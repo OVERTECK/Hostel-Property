@@ -59,6 +59,20 @@ namespace HostelProperty.DataAccess.Repositories
             await myDbContext.SaveChangesAsync();
         }
 
+        public async Task Update(Guid id, Resident resident)
+        {
+            await myDbContext.Residents
+                .Where(r => r.Id == id)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(c => c.FirstName, resident.FirstName)
+                    .SetProperty(c => c.MiddleName, resident.MiddleName)
+                    .SetProperty(c => c.LastName, resident.LastName)
+                    .SetProperty(c => c.Age, resident.Age)
+                    .SetProperty(c => c.NumberCourse, resident.NumberCourse)
+                    .SetProperty(c => c.RoomNumber, resident.RoomNumber)
+                    .SetProperty(c => c.Subjects, resident.Subjects));
+        }
+
         public async Task Update(Guid id, List<Subject> subjects)
         {
             await myDbContext.Residents
