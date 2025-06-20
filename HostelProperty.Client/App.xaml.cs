@@ -11,7 +11,7 @@ namespace HostelProperty.Client
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AuthorizationPage());
+            return new Window(new NavigationPage(new AuthorizationPage()));
         }
     }
 }

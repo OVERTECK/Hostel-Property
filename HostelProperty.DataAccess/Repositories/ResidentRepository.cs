@@ -31,17 +31,15 @@ namespace HostelProperty.DataAccess.Repositories
             string firstName,
             string middleName,
             string lastName,
-            int age,
-            int numberCourse,
-            int roomNumber)
+            byte age,
+            byte numberCourse,
+            Room room)
         {
-            var searchedRoom = myDbContext.Rooms.FirstOrDefault(c => c.Number == roomNumber);
+            var searchedRoom = myDbContext.Rooms.FirstOrDefault(c => c.Id == room.Id);
 
             if (searchedRoom == null) {
-                throw new Exception($"Room number {roomNumber} isn't exist.");
+                throw new Exception($"Room number {room.Id} isn't exist.");
             }
-
-            Room room = searchedRoom;
 
             var resident = new Resident
             {
@@ -51,7 +49,6 @@ namespace HostelProperty.DataAccess.Repositories
                 LastName = lastName,
                 Age = age,
                 NumberCourse = numberCourse,
-                RoomNumber = room.Number,
                 Room = room
             };
 
@@ -69,7 +66,6 @@ namespace HostelProperty.DataAccess.Repositories
                     .SetProperty(c => c.LastName, resident.LastName)
                     .SetProperty(c => c.Age, resident.Age)
                     .SetProperty(c => c.NumberCourse, resident.NumberCourse)
-                    .SetProperty(c => c.RoomNumber, resident.RoomNumber)
                     .SetProperty(c => c.Subjects, resident.Subjects));
         }
 

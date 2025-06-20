@@ -10,9 +10,9 @@ public class RoomSubjectConfiguration : IEntityTypeConfiguration<RoomSubject>
     {
         builder.HasKey(r => r.Id);
 
-        builder.
-            HasOne(s => s.Room)
+        builder
+            .HasOne(s => s.Room)
             .WithMany(s => s.RoomSubjects)
-            .HasForeignKey(s => s.RoomNumber);
+            .HasForeignKey(s => s.RoomId);
     }
 }

@@ -33,7 +33,7 @@ public static class ResidentEndpoints
                 resident.LastName,
                 resident.Age,
                 resident.NumberCourse,
-                resident.RoomNumber);
+                resident.Room);
 
             return Results.Created();
         });

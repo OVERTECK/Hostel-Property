@@ -8,16 +8,17 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
 {
     public void Configure(EntityTypeBuilder<Room> builder)
     {
-        builder.HasKey(r => r.Number);
+        builder.HasKey(r => r.Id);
 
-        builder.
-            HasMany(r => r.Residents)
-            .WithOne(r => r.Room)
-            .HasForeignKey(r => r.RoomNumber);
+        builder.Property(x => x.Title)
+            .HasMaxLength(30);
 
-        builder.
-            HasMany(r => r.RoomSubjects)
+        builder
+            .HasMany(r => r.RoomSubjects)
             .WithOne(r => r.Room)
-            .HasForeignKey(r => r.RoomNumber);
+            .HasForeignKey(r => r.RoomId);
+
+        builder.Property(c => c.Floor)
+            .HasMaxLength(3);
     }
 }

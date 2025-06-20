@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HostelProperty.Client.Pages.EditRoomPage"
+             Title="Редактирование комнаты">
+    <Grid
+        RowDefinitions="*, *"
+        ColumnDefinitions="*, *"
+        Padding="20"
+        ColumnSpacing="10"
+        RowSpacing="10">
+
+        <Border
+            Padding="15"
+            Grid.Row="0"
+            Grid.Column="0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"></RoundRectangle>
+            </Border.StrokeShape>
+            <VerticalStackLayout
+                Grid.Row="0"
+                Spacing="10">
+
+                <VerticalStackLayout
+                    Spacing="4">
+                    <Label
+                        VerticalTextAlignment="Center">Номер: </Label>
+                    <Entry
+                        x:Name="TitleRoom"
+                        VerticalTextAlignment="Center"></Entry>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="4">
+                    <Label
+                        VerticalTextAlignment="Center">Количество проживающих: </Label>
+                    <Entry
+                        x:Name="CountResidents"
+                        VerticalTextAlignment="Center"></Entry>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Spacing="4">
+                    <Label
+                        VerticalTextAlignment="Center">Этаж: </Label>
+                    <Entry
+                        x:Name="Floor"
+                        VerticalTextAlignment="Center"></Entry>
+                </VerticalStackLayout>
+
+                <Button
+                    x:Name="SaveButton"
+                    Clicked="SaveButton_Clicked"
+                    Margin="0, 20, 0, 0"
+                    Text="Сохранить"
+                    FontSize="17">
+                </Button>
+                
+            </VerticalStackLayout>
+        </Border>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Padding="10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"></RoundRectangle>
+            </Border.StrokeShape>
+            <Grid
+                RowDefinitions="*, Auto">
+                <CollectionView
+                    Grid.Row="0"
+                    EmptyView="Список пуст"
+                    VerticalOptions="Center"
+                    x:Name="ResidentsCollection">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                            ItemSpacing="5"
+                            Orientation="Vertical">
+                        </LinearItemsLayout>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="13">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <Grid
+                                    RowDefinitions="*, *, *, *, *"
+                                    ColumnDefinitions="*, 100">
+                                    <Label Text="{Binding LastName, StringFormat='Фамилия: {0}'}"></Label>
+                                    <Label Grid.Row="1" Text="{Binding FirstName, StringFormat='Имя: {0}'}"></Label>
+                                    <Label Grid.Row="2" Text="{Binding MiddleName, StringFormat='Отчество: {0}'}"></Label>
+                                    <Label Grid.Row="3" Text="{Binding Age, StringFormat='Возраст: {0}'}"></Label>
+                                    <Label Grid.Row="4" Text="{Binding NumberCourse, StringFormat='Номер курса: {0}'}"></Label>
+
+                                    <Button
+                                        x:Name="DeleteResident"
+                                        Grid.Column="1"
+                                        Grid.RowSpan="4"
+                                        Margin="0, 15, 0, 0"
+                                        CornerRadius="40"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Clicked="DeleteResident_Clicked"
+                                        Text="🗑️"></Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button
+                    Grid.Row="1"
+                    Text="Добавить жильца"></Button>
+            </Grid>
+        </Border>
+
+        <Border
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Padding="10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"></RoundRectangle>
+            </Border.StrokeShape>
+            <Grid RowDefinitions="*, Auto">
+                <CollectionView
+                    EmptyView="Список пуст"
+                    Grid.Row="0"
+                    x:Name="RoomSubjectsCollection">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                            ItemSpacing="5"
+                            Orientation="Vertical">
+                        </LinearItemsLayout>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Padding="13">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <Grid
+                                    RowDefinitions="*, *, *"
+                                    ColumnDefinitions="*, 100">
+                                    <Label Text="{Binding Id, StringFormat='Номер: {0}'}"></Label>
+                                    <Label Grid.Row="1" Text="{Binding Title, StringFormat='Название: {0}'}"></Label>
+                                    <Label Grid.Row="2" Text="{Binding DateReseption, StringFormat='Дата прибытия: {0}'}"></Label>
+                                    <Button
+                                        x:Name="DeleteRoomObject"
+                                        Grid.Column="1"
+                                        Grid.RowSpan="3"
+                                        CornerRadius="40"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Clicked="DeleteRoomObject_Clicked"
+                                        Text="🗑️"></Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button
+                    Grid.Row="1"
+                    Text="Добавить жильца"></Button>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

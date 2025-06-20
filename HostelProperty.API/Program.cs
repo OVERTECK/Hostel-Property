@@ -1,6 +1,7 @@
 using System.Text;
 using HostelProperty.API.Endpoints;
 using HostelProperty.DataAccess;
+using HostelProperty.DataAccess.Configurations;
 using HostelProperty.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ResidentRepository>();
+builder.Services.AddScoped<RoomRepository>();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -39,17 +41,26 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    //using (var scope = app.Services.CreateScope())
+    //{
+    //    var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+    //    DataSeeder.Seed(dbContext);
+    //}
+
     app.MapOpenApi();
 }
 app.UseSwagger();
 app.UseSwaggerUI();
 
+//app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseHttpsRedirection();
 
 app.MapAuthorizationEndpoint(builder);
+
+app.MapRoomEndponts();
 
 app.MapResidentEndpoints();
 

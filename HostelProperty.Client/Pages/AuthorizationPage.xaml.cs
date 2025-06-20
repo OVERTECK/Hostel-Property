@@ -51,11 +51,25 @@ public partial class AuthorizationPage : ContentPage
 
             if (response.IsSuccessStatusCode)
             {
-                await Navigation.PushAsync(new MainPage());
+                var token = await response.Content.ReadAsStringAsync();
+
+                token = token.Trim('"');
+
+                await SecureStorage.SetAsync("jwt", "Bearer " + token);
+
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
+
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+                LoginButton.IsEnabled = true;
             }
             else
             {
-                //await DisplayAlert("Ошибка", , "OK");
+                await DisplayAlert("Ошибка", "Неверная почта или пароль." , "OK");
+
+                LoadingIndicator.IsVisible = false;
+                LoadingIndicator.IsRunning = false;
+                LoginButton.IsEnabled = true;
             }    
 
         }

@@ -1,23 +1,31 @@
-﻿namespace HostelProperty.DataAccess.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace HostelProperty.DataAccess.Entities
 {
     public class Resident
     {
         public Guid Id { get; set; }
 
-        public required string FirstName { get; set; }
+        [MaxLength(100)]
+        public string? FirstName { get; set; }
 
-        public required string MiddleName { get; set; }
+        [MaxLength(100)]
+        public string? MiddleName { get; set; }
 
-        public required string LastName { get; set; }
+        [MaxLength(100)]
+        public string? LastName { get; set; }
 
-        public int Age { get; set; }
+        public byte Age { get; set; }
 
-        public int NumberCourse { get; set; }
+        public byte NumberCourse { get; set; }
 
-        public required int RoomNumber { get; set; }
+        public Guid? RoomId { get; set; }
 
+        [JsonIgnore]
         public Room? Room { get; set; }
 
+        [JsonIgnore]
         public List<Subject>? Subjects { get; set; } = [];
     }
 }

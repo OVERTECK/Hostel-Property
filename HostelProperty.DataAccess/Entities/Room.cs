@@ -1,8 +1,16 @@
-﻿namespace HostelProperty.DataAccess.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HostelProperty.DataAccess.Entities;
 
 public class Room
 {
-    public int Number { get; set; }
+    public Guid Id { get; set; }
+
+    public string? Title { get; set; }
+
+    public byte? CountResidents { get; set; }
+
+    public byte? Floor { get; set; }
 
     public List<Resident>? Residents { get; set; }
 

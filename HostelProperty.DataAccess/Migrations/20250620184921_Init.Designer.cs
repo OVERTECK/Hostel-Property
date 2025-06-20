@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HostelProperty.DataAccess.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20250529134127_AddRoomNumber")]
-    partial class AddRoomNumber
+    [Migration("20250620184921_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,43 +31,52 @@ namespace HostelProperty.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
+                    b.Property<byte>("Age")
+                        .HasColumnType("tinyint unsigned");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<int>("NumberCourse")
-                        .HasColumnType("int");
+                    b.Property<byte>("NumberCourse")
+                        .HasColumnType("tinyint unsigned");
 
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomNumber");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Residents");
                 });
 
             modelBuilder.Entity("HostelProperty.DataAccess.Entities.Room", b =>
                 {
-                    b.Property<int>("Number")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Number"));
+                    b.Property<byte?>("CountResidents")
+                        .HasColumnType("tinyint unsigned");
 
-                    b.HasKey("Number");
+                    b.Property<byte?>("Floor")
+                        .HasMaxLength(3)
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Rooms");
                 });
@@ -78,19 +87,19 @@ namespace HostelProperty.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateOnly>("DateReseption")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateReseption")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("RoomNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomNumber");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("RoomSubjects");
                 });
@@ -101,15 +110,15 @@ namespace HostelProperty.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<DateOnly>("DateReseption")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateReseption")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("ResidentId")
+                    b.Property<Guid?>("ResidentId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -118,13 +127,30 @@ namespace HostelProperty.DataAccess.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("HostelProperty.DataAccess.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("HostelProperty.DataAccess.Entities.Resident", b =>
                 {
                     b.HasOne("HostelProperty.DataAccess.Entities.Room", "Room")
                         .WithMany("Residents")
-                        .HasForeignKey("RoomNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
                 });
@@ -133,7 +159,7 @@ namespace HostelProperty.DataAccess.Migrations
                 {
                     b.HasOne("HostelProperty.DataAccess.Entities.Room", "Room")
                         .WithMany("RoomSubjects")
-                        .HasForeignKey("RoomNumber");
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
                 });
@@ -142,9 +168,7 @@ namespace HostelProperty.DataAccess.Migrations
                 {
                     b.HasOne("HostelProperty.DataAccess.Entities.Resident", "Resident")
                         .WithMany("Subjects")
-                        .HasForeignKey("ResidentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResidentId");
 
                     b.Navigation("Resident");
                 });

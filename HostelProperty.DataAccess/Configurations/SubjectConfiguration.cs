@@ -9,10 +9,5 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     public void Configure(EntityTypeBuilder<Subject> builder)
     {
         builder.HasKey(s => s.Id);
-
-        builder.
-            HasOne(s => s.Resident)
-            .WithMany(s => s.Subjects)
-            .HasForeignKey(s => s.ResidentId);
     }
 }
