@@ -22,13 +22,22 @@ namespace HostelProperty.DataAccess.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Room?> GetById(Guid number)
+        public async Task<List<Room>?> GetByTitle(string title)
+        {
+            return await myDbContext.Rooms
+                .AsNoTracking()
+                .Where(c => c.Title.StartsWith(title))
+                .Include(c => c.Residents)
+                .Include(c => c.RoomSubjects)
+                .ToListAsync();
+        }
+        public async Task<Room?> GetById(Guid id)
         {
             return await myDbContext.Rooms
                 .AsNoTracking()
                 .Include(c => c.Residents)
                 .Include(c => c.RoomSubjects)
-                .FirstOrDefaultAsync(r => r.Id == number);
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task Update(Guid id, Room room)

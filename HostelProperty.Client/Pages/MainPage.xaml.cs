@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Threading.Tasks;
+using HostelProperty.Client.Services;
 using HostelProperty.Shared.Contracts;
 
 namespace HostelProperty.Client.Pages;
@@ -62,5 +63,23 @@ public partial class MainPage : ContentPage
         var context = (RoomDto)button.BindingContext;
 
         await Navigation.PushAsync(new EditRoomPage(context));
+    }
+
+    private async void searchRoom_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var textSearch = searchRoom.Text;
+
+        if (string.IsNullOrEmpty(textSearch))
+        {
+            var defaultRooms = await RoomService.GetAll();
+
+            collectionViewRooms.ItemsSource = defaultRooms;
+
+            return;
+        }
+
+        var searchedRooms = await RoomService.GetByTitle(textSearch);
+
+        collectionViewRooms.ItemsSource = searchedRooms;
     }
 }

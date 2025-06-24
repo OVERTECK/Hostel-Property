@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HostelProperty.Client.Pages.SelectResidentPage"
+             Title="SelectResidentPage">
+    <Grid RowDefinitions="Auto, *"
+          RowSpacing="20"
+          Padding="10">
+        <SearchBar
+            Grid.Row="0"
+            Placeholder="Поиск жильца по ФИО"
+            x:Name="searchResident"
+            TextChanged="searchResident_TextChanged"></SearchBar>
+        <CollectionView
+            Grid.Row="1"
+            EmptyView="Список пуст"
+            VerticalOptions="Center"
+            x:Name="ResidentsCollection">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    ItemSpacing="5"
+                    Orientation="Vertical">
+                </LinearItemsLayout>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Padding="13">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Grid
+                            RowDefinitions="*, *, *, *, *, *"
+                            ColumnDefinitions="*, 100">
+                            <Label Text="{Binding LastName, StringFormat='Фамилия: {0}'}"></Label>
+                            <Label Grid.Row="1" 
+                                           Text="{Binding FirstName, StringFormat='Имя: {0}'}"></Label>
+                            <Label Grid.Row="2" Text="{Binding MiddleName, StringFormat='Отчество: {0}'}"></Label>
+                            <Label Grid.Row="3" Text="{Binding Age, StringFormat='Возраст: {0}'}"></Label>
+                            <Label Grid.Row="4" Text="{Binding NumberCourse, StringFormat='Номер курса: {0}'}"></Label>
+                            <Label Grid.Row="5" Text="{Binding Room.Title, StringFormat='Номер комнаты: {0}'}"></Label>
+
+                            <Button
+                                x:Name="SelectResident"
+                                Grid.Column="1"
+                                Grid.RowSpan="6"
+                                CornerRadius="50"
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                FontSize="30"
+                                FontAttributes="Bold"
+                                Clicked="SelectResident_Clicked"
+                                ImageSource="add_btn.png"></Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

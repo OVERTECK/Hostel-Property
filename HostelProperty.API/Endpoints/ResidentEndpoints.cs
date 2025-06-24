@@ -15,9 +15,14 @@ public static class ResidentEndpoints
             return await residentRepository.GetAll();
         });
 
-        group.MapGet("/{id}", async (Guid idResident, ResidentRepository residentRepository) =>
+        group.MapGet("/fio/{searchText}", async (string searchText, ResidentRepository residentRepository) =>
         {
-            var searchedResident = await residentRepository.GetById(idResident);
+            return residentRepository.GetByFIO(searchText);
+        });
+
+        group.MapGet("/{id}", async (Guid id, ResidentRepository residentRepository) =>
+        {
+            var searchedResident = await residentRepository.GetById(id);
 
             if (searchedResident != null)
                 return Results.Ok(searchedResident);
@@ -38,23 +43,23 @@ public static class ResidentEndpoints
             return Results.Created();
         });
 
-        group.MapPut("/{id}", async (Guid idResident, Resident resident, ResidentRepository residentRepository) =>
+        group.MapPut("/{id}", async (Guid id, Resident resident, ResidentRepository residentRepository) =>
         {
-            var searchedResident = residentRepository.GetById(idResident);
+            var searchedResident = residentRepository.GetById(id);
 
             if (searchedResident == null)
                 return Results.NotFound();
             else
             {
-                await residentRepository.Update(idResident, resident);
+                await residentRepository.Update(id, resident);
 
                 return Results.Ok();
             }
         });
 
-        group.MapDelete("/{id}", async (Guid idResident, ResidentRepository residentRepository) =>
+        group.MapDelete("/{id}", async (Guid id, ResidentRepository residentRepository) =>
         {
-            await residentRepository.Delete(idResident);
+            await residentRepository.Delete(id);
 
             return Results.Ok();
         });

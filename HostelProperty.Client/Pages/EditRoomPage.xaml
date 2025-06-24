@@ -22,7 +22,7 @@
                 Spacing="10">
 
                 <VerticalStackLayout
-                    Spacing="4">
+                    Spacing="5">
                     <Label
                         VerticalTextAlignment="Center">Номер: </Label>
                     <Entry
@@ -31,7 +31,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
-                    Spacing="4">
+                    Spacing="5">
                     <Label
                         VerticalTextAlignment="Center">Количество проживающих: </Label>
                     <Entry
@@ -40,7 +40,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
-                    Spacing="4">
+                    Spacing="5">
                     <Label
                         VerticalTextAlignment="Center">Этаж: </Label>
                     <Entry
@@ -67,7 +67,7 @@
                 <RoundRectangle CornerRadius="10"></RoundRectangle>
             </Border.StrokeShape>
             <Grid
-                RowDefinitions="*, Auto">
+                RowDefinitions="*, 80">
                 <CollectionView
                     Grid.Row="0"
                     EmptyView="Список пуст"
@@ -90,7 +90,8 @@
                                     RowDefinitions="*, *, *, *, *"
                                     ColumnDefinitions="*, 100">
                                     <Label Text="{Binding LastName, StringFormat='Фамилия: {0}'}"></Label>
-                                    <Label Grid.Row="1" Text="{Binding FirstName, StringFormat='Имя: {0}'}"></Label>
+                                    <Label Grid.Row="1" 
+                                           Text="{Binding FirstName, StringFormat='Имя: {0}'}"></Label>
                                     <Label Grid.Row="2" Text="{Binding MiddleName, StringFormat='Отчество: {0}'}"></Label>
                                     <Label Grid.Row="3" Text="{Binding Age, StringFormat='Возраст: {0}'}"></Label>
                                     <Label Grid.Row="4" Text="{Binding NumberCourse, StringFormat='Номер курса: {0}'}"></Label>
@@ -98,13 +99,14 @@
                                     <Button
                                         x:Name="DeleteResident"
                                         Grid.Column="1"
-                                        Grid.RowSpan="4"
-                                        Margin="0, 15, 0, 0"
+                                        Grid.RowSpan="5"
                                         CornerRadius="40"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center"
                                         Clicked="DeleteResident_Clicked"
-                                        Text="🗑️"></Button>
+                                        ImageSource="delete_btn.png"
+                                        WidthRequest="50"
+                                        HeightRequest="50"></Button>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -112,6 +114,9 @@
                 </CollectionView>
                 <Button
                     Grid.Row="1"
+                    VerticalOptions="Center"
+                    x:Name="CreateResidnetsBtn"
+                    Clicked="CreateResidnetsBtn_Clicked"
                     Text="Добавить жильца"></Button>
             </Grid>
         </Border>
@@ -123,7 +128,7 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"></RoundRectangle>
             </Border.StrokeShape>
-            <Grid RowDefinitions="*, Auto">
+            <Grid RowDefinitions="*, 80">
                 <CollectionView
                     EmptyView="Список пуст"
                     Grid.Row="0"
@@ -155,7 +160,9 @@
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center"
                                         Clicked="DeleteRoomObject_Clicked"
-                                        Text="🗑️"></Button>
+                                        ImageSource="delete_btn.png"
+                                        WidthRequest="50"
+                                        HeightRequest="50"></Button>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -163,6 +170,7 @@
                 </CollectionView>
                 <Button
                     Grid.Row="1"
+                    VerticalOptions="Center"
                     Text="Добавить жильца"></Button>
             </Grid>
         </Border>

@@ -120,4 +120,18 @@ public partial class EditRoomPage : ContentPage
         }
 
     }
+
+    private async void CreateResidnetsBtn_Clicked(object sender, EventArgs e)
+    {
+        var response = await DisplayActionSheet("Выберите действие:", "Отмена", null, "Создать нового жильца", "Выбрать из существующих");
+
+        if (response == "Создать нового жильца")
+        {
+            await Navigation.PushAsync(new CreateResidentPage());
+        } 
+        else if (response == "Выбрать из существующих")
+        {
+            await Navigation.PushAsync(new SelectResidentPage());
+        }
+    }
 }

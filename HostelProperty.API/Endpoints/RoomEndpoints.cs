@@ -18,6 +18,20 @@ public static class RoomEndpoints
             return Results.Ok(rooms);
         });
 
+        group.MapGet("/{id}", [Authorize] async (Guid id, RoomRepository roomRepository) =>
+        {
+            var room = await roomRepository.GetById(id);
+
+            return Results.Ok(room);
+        });
+
+        group.MapGet("/title/{title}", [Authorize] async (string title, RoomRepository roomRepository) =>
+        {
+            var rooms = await roomRepository.GetByTitle(title);
+
+            return Results.Ok(rooms);
+        });
+
         group.MapDelete("/resident/delete/{id}", [Authorize] async (Guid id, RoomRepository roomRepository) =>
         {
             try

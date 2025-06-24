@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +20,28 @@ namespace HostelProperty.DataAccess.Repositories
 
         public async Task<List<Resident>> GetAll()
         {
-            return await myDbContext.Residents.AsNoTracking().ToListAsync();
+            return await myDbContext.Residents
+                .AsNoTracking()
+                .Include(c => c.Room)
+                .ToListAsync();
         }
 
         public async Task<Resident?> GetById(Guid id)
         {
-            return await myDbContext.Residents.AsNoTracking().FirstOrDefaultAsync(r => r.Id == id);
+            return await myDbContext.Residents
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task<List<Resident>?> GetByFIO(string searchText)
+        {
+            return await myDbContext.Residents
+                .AsNoTracking()
+                .Where(
+                    c => c.FirstName.Contains(searchText) ||
+                    c.MiddleName.Contains(searchText) ||
+                    c.LastName.Contains(searchText))
+                .ToListAsync();
         }
 
         public async Task Add(
@@ -58,7 +75,7 @@ namespace HostelProperty.DataAccess.Repositories
 
         public async Task Update(Guid id, Resident resident)
         {
-            await myDbContext.Residents
+            var response = await myDbContext.Residents
                 .Where(r => r.Id == id)
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(c => c.FirstName, resident.FirstName)
@@ -66,7 +83,11 @@ namespace HostelProperty.DataAccess.Repositories
                     .SetProperty(c => c.LastName, resident.LastName)
                     .SetProperty(c => c.Age, resident.Age)
                     .SetProperty(c => c.NumberCourse, resident.NumberCourse)
-                    .SetProperty(c => c.Subjects, resident.Subjects));
+                    .SetProperty(c => c.RoomId, resident.RoomId));
+
+            await myDbContext.SaveChangesAsync();
+
+            Debug.WriteLine(response);
         }
 
         public async Task Update(Guid id, List<Subject> subjects)

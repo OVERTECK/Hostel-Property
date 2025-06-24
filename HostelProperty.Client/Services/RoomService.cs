@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using HostelProperty.DataAccess.Entities;
+using HostelProperty.Shared.Contracts;
 
 namespace HostelProperty.Client.Services;
 
@@ -129,6 +130,88 @@ public static class RoomService
             {
                 throw new Exception(await response.Content.ReadAsStringAsync());
             }
+        }
+    }
+
+    public async static Task<RoomDto?> GetById(Guid? roomId)
+    {
+        using (var client = new HttpClient())
+        {
+            var jwtToket = await SecureStorage.GetAsync("jwt");
+
+            client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+            var response = await client.GetAsync($"https://localhost:7106/api/rooms/{roomId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var room = await response.Content.ReadFromJsonAsync<RoomDto>();
+
+                if (room == null)
+                {
+                    throw new Exception("Room not found");
+                }
+
+                return room;
+            }
+            else
+            {
+                throw new Exception(await response.Content.ReadAsStringAsync());
+            }
+        }
+    }
+
+    public async static Task<List<RoomDto>?> GetByTitle(string title)
+    {
+        using var client = new HttpClient();
+
+        var jwtToket = await SecureStorage.GetAsync("jwt");
+
+        client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+        var response = await client.GetAsync($"https://localhost:7106/api/rooms/title/{title}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var rooms = await response.Content.ReadFromJsonAsync<List<RoomDto>>();
+
+            if (rooms == null)
+            {
+                throw new Exception("Rooms not found");
+            }
+
+            return rooms;
+        }
+        else
+        {
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+    }
+
+    public async static Task<List<RoomDto>?> GetAll()
+    {
+        using var client = new HttpClient();
+
+        var jwtToket = await SecureStorage.GetAsync("jwt");
+
+        client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+        var response = await client.GetAsync($"https://localhost:7106/api/rooms/");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var rooms = await response.Content.ReadFromJsonAsync<List<RoomDto>>();
+
+            if (rooms == null)
+            {
+                throw new Exception("Rooms not found");
+            }
+
+            return rooms;
+        }
+        else
+        {
+            throw new Exception(await response.Content.ReadAsStringAsync());
         }
     }
 }
