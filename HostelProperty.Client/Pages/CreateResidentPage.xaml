@@ -2,11 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HostelProperty.Client.Pages.CreateResidentPage"
-             Title="SelectResidentPage">
-    <HorizontalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </HorizontalStackLayout>
+             Title="Создание жильца">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Фамилия -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Фамилия:" FontAttributes="Bold"/>
+                <Entry x:Name="LastNameEntry" Placeholder="Введите фамилию"/>
+            </VerticalStackLayout>
+
+            <!-- Имя -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Имя:" FontAttributes="Bold"/>
+                <Entry x:Name="FirstNameEntry" Placeholder="Введите имя"/>
+            </VerticalStackLayout>
+
+            <!-- Отчество -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Отчество:" FontAttributes="Bold"/>
+                <Entry x:Name="MiddleNameEntry" Placeholder="Введите отчество"/>
+            </VerticalStackLayout>
+
+            <!-- Возраст -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Возраст:" FontAttributes="Bold"/>
+                <Entry x:Name="AgeEntry" 
+                       Placeholder="Введите возраст"
+                       Keyboard="Numeric"/>
+            </VerticalStackLayout>
+
+            <!-- Номер курса -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Номер курса:" FontAttributes="Bold"/>
+                <Entry x:Name="CourseNumberEntry" 
+                       Placeholder="Введите номер курса"
+                       Keyboard="Numeric"/>
+            </VerticalStackLayout>
+
+            <!-- Кнопка сохранить -->
+            <Button Text="Сохранить" 
+                    Clicked="OnSaveClicked"
+                    FontSize="20"
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

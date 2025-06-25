@@ -188,6 +188,33 @@ public static class RoomService
         }
     }
 
+    public async static Task<List<RoomDto>?> GetByFloor(byte number)
+    {
+        using var client = new HttpClient();
+
+        var jwtToket = await SecureStorage.GetAsync("jwt");
+
+        client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+        var response = await client.GetAsync($"https://localhost:7106/api/rooms/floor/{number}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var rooms = await response.Content.ReadFromJsonAsync<List<RoomDto>>();
+
+            if (rooms == null)
+            {
+                throw new Exception("Rooms not found");
+            }
+
+            return rooms;
+        }
+        else
+        {
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+    }
+
     public async static Task<List<RoomDto>?> GetAll()
     {
         using var client = new HttpClient();
@@ -210,6 +237,22 @@ public static class RoomService
             return rooms;
         }
         else
+        {
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+    }
+
+    public async static Task DeleteById(Guid id)
+    {
+        using var client = new HttpClient();
+
+        var jwtToket = await SecureStorage.GetAsync("jwt");
+
+        client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+        var response = await client.DeleteAsync($"https://localhost:7106/api/rooms/{id}");
+
+        if (!response.IsSuccessStatusCode)
         {
             throw new Exception(await response.Content.ReadAsStringAsync());
         }

@@ -17,10 +17,11 @@
         <HorizontalStackLayout
             Grid.Row="1"
             Spacing="15">
-            <Label Text="Фильтрация"
+            <Label Text="Этажи: "
                    VerticalTextAlignment="Center"></Label>
-            <Picker x:Name="SortPicker">
-                    
+            <Picker x:Name="SortPicker"
+                    SelectedIndexChanged="SortPicker_SelectedIndexChanged"
+                    Loaded="SortPicker_Loaded">
             </Picker>
             
         </HorizontalStackLayout>
@@ -83,6 +84,8 @@
                             </Button>
                             
                             <Button
+                                x:Name="DeleteRoomBtn"
+                                Clicked="DeleteRoomBtn_Clicked"
                                 HorizontalOptions="Start"
                                 CornerRadius="50"
                                 Grid.Column="4"

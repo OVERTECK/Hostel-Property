@@ -25,6 +25,24 @@ public partial class EditRoomPage : ContentPage
         RoomSubjectsCollection.ItemsSource = contextRoom.RoomSubjects;
     }
 
+    public async void LoadResidents()
+    {
+        ResidentsCollection.ItemsSource = await RoomService.GetResidents(ContextRoom.Id);
+    }
+
+    public async void LoadRoomSubjects()
+    {
+        RoomSubjectsCollection.ItemsSource = await RoomService.GetRoomSubjects(ContextRoom.Id);
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        LoadResidents();
+        LoadRoomSubjects();
+    }
+
     private async void DeleteResident_Clicked(object sender, EventArgs e)
     {
         var button = (Button)sender;
@@ -122,16 +140,30 @@ public partial class EditRoomPage : ContentPage
     }
 
     private async void CreateResidnetsBtn_Clicked(object sender, EventArgs e)
-    {
+    {   
         var response = await DisplayActionSheet("Выберите действие:", "Отмена", null, "Создать нового жильца", "Выбрать из существующих");
 
         if (response == "Создать нового жильца")
         {
-            await Navigation.PushAsync(new CreateResidentPage());
+            await Navigation.PushAsync(new CreateResidentPage(this.ContextRoom.Id));
         } 
         else if (response == "Выбрать из существующих")
         {
-            await Navigation.PushAsync(new SelectResidentPage());
+            await Navigation.PushAsync(new SelectResidentPage(this.ContextRoom.Id));
+        }
+    }
+
+    private async void AddObjectBtn_Clicked(object sender, EventArgs e)
+    {
+        var response = await DisplayActionSheet("Выберите действие:", "Отмена", null, "Создать новый предмет", "Выбрать из существующих");
+
+        if (response == "Создать новый предмет")
+        {
+            await Navigation.PushAsync(new CreateRoomSubjectPage(this.ContextRoom.Id));
+        }
+        else if (response == "Выбрать из существующих")
+        {
+            await Navigation.PushAsync(new SelectRoomSubjectPage(this.ContextRoom.Id));
         }
     }
 }

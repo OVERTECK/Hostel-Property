@@ -38,23 +38,24 @@ public static class ResidentEndpoints
                 resident.LastName,
                 resident.Age,
                 resident.NumberCourse,
-                resident.Room);
+                resident.RoomId);
 
             return Results.Created();
         });
 
         group.MapPut("/{id}", async (Guid id, Resident resident, ResidentRepository residentRepository) =>
         {
-            var searchedResident = residentRepository.GetById(id);
-
-            if (searchedResident == null)
-                return Results.NotFound();
-            else
+            try
             {
                 await residentRepository.Update(id, resident);
 
                 return Results.Ok();
             }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
+
         });
 
         group.MapDelete("/{id}", async (Guid id, ResidentRepository residentRepository) =>

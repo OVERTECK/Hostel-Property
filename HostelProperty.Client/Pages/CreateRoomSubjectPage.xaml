@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HostelProperty.Client.Pages.CreateRoomSubjectPage"
+             Title="CreateRoomSubjectPage">
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Название:" FontAttributes="Bold"/>
+                <Entry x:Name="TitleObject" Placeholder="Введите название"/>
+            </VerticalStackLayout>
+
+            <Button Text="Сохранить" 
+                    Clicked="OnSaveClicked"
+                    FontSize="20"
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -13,6 +13,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ResidentRepository>();
 builder.Services.AddScoped<RoomRepository>();
+builder.Services.AddScoped<RoomSubjectRepository>();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -63,5 +64,7 @@ app.MapAuthorizationEndpoint(builder);
 app.MapRoomEndponts();
 
 app.MapResidentEndpoints();
+
+app.MapRoomSubjectEndpoints();
 
 app.Run();

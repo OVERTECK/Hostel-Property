@@ -66,8 +66,6 @@ public static class ResidentService
 
     public async static Task EditResident(Guid id, Resident editiedResident)
     {
-        //using var client = new HttpClient();
-
         using (var client = new HttpClient())
         {
             var jwtToket = await SecureStorage.GetAsync("jwt");
@@ -83,6 +81,27 @@ public static class ResidentService
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Server error");              
+            }
+        }
+    }
+
+    public static async Task AddResident(Resident newResident)
+    {
+        using (var client = new HttpClient())
+        {
+            var jwtToket = await SecureStorage.GetAsync("jwt");
+
+            client.DefaultRequestHeaders.Add("Authorization", jwtToket);
+
+            var serializedResident = JsonSerializer.Serialize(newResident);
+
+            var stringContent = new StringContent(serializedResident, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"https://localhost:7106/api/resident/", stringContent);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Server error");
             }
         }
     }

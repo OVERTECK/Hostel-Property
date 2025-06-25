@@ -32,6 +32,13 @@ public static class RoomEndpoints
             return Results.Ok(rooms);
         });
 
+        group.MapGet("/floor/{number}", [Authorize] async (byte number, RoomRepository roomRepository) =>
+        {
+            var rooms = await roomRepository.GetByFloor(number);
+
+            return Results.Ok(rooms);
+        });
+
         group.MapDelete("/resident/delete/{id}", [Authorize] async (Guid id, RoomRepository roomRepository) =>
         {
             try
@@ -94,6 +101,20 @@ public static class RoomEndpoints
                 return Results.BadRequest(ex.Message);
             }
 
+        });
+
+        group.MapDelete("/{id}", [Authorize] async (Guid id, RoomRepository roomRepository) =>
+        {
+            try
+            {
+                await roomRepository.DeleteRoom(id);
+
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex.Message);
+            }
         });
     }
 }

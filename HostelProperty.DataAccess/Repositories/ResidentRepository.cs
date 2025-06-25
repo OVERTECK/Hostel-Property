@@ -30,6 +30,7 @@ namespace HostelProperty.DataAccess.Repositories
         {
             return await myDbContext.Residents
                 .AsNoTracking()
+                .Include(c => c.Subjects)
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
@@ -50,12 +51,12 @@ namespace HostelProperty.DataAccess.Repositories
             string lastName,
             byte age,
             byte numberCourse,
-            Room room)
+            Guid? roomId)
         {
-            var searchedRoom = myDbContext.Rooms.FirstOrDefault(c => c.Id == room.Id);
+            var searchedRoom = myDbContext.Rooms.FirstOrDefault(c => c.Id == roomId);
 
             if (searchedRoom == null) {
-                throw new Exception($"Room number {room.Id} isn't exist.");
+                throw new Exception($"Room number {roomId} isn't exist.");
             }
 
             var resident = new Resident
@@ -66,7 +67,7 @@ namespace HostelProperty.DataAccess.Repositories
                 LastName = lastName,
                 Age = age,
                 NumberCourse = numberCourse,
-                Room = room
+                RoomId = roomId
             };
 
             await myDbContext.Residents.AddAsync(resident);
@@ -85,9 +86,12 @@ namespace HostelProperty.DataAccess.Repositories
                     .SetProperty(c => c.NumberCourse, resident.NumberCourse)
                     .SetProperty(c => c.RoomId, resident.RoomId));
 
-            await myDbContext.SaveChangesAsync();
+            if (response == 0)
+            {
+                throw new Exception("Resident not found");
+            }
 
-            Debug.WriteLine(response);
+            await myDbContext.SaveChangesAsync();
         }
 
         public async Task Update(Guid id, List<Subject> subjects)

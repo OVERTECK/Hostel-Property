@@ -6,14 +6,18 @@ namespace HostelProperty.Client.Pages;
 
 public partial class SelectResidentPage : ContentPage
 {
-	public SelectResidentPage()
+	public SelectResidentPage(Guid roomId)
 	{
 		InitializeComponent();
 	
 		LoadResidents();
-	}
 
-	public async void LoadResidents()
+        RoomId = roomId;
+    }
+
+    public Guid RoomId { get; }
+
+    public async void LoadResidents()
 	{
         ResidentsCollection.ItemsSource = await ResidentService.GetResidents();
     }
@@ -44,10 +48,12 @@ public partial class SelectResidentPage : ContentPage
 
 		bool response;
 
+		var currentRoom = await RoomService.GetById(RoomId);
+
 		if (contextResident.RoomId == null)
 		{
             response = await DisplayAlert("Подтвеждение", $"Вы хотите добавить \"{contextResident.FirstName} {contextResident.LastName} {contextResident.MiddleName}\" " +
-                $"в комнату {searchedRoom.Title}?", "Да", "Отмена");
+                $"в комнату {currentRoom.Id}?", "Да", "Отмена");
         } 
 		else
 		{
@@ -57,7 +63,7 @@ public partial class SelectResidentPage : ContentPage
 
 		if (response)
 		{
-			contextResident.RoomId = searchedRoom.Id;
+			contextResident.RoomId = currentRoom.Id;
 
 			try
 			{

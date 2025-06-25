@@ -113,6 +113,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <Button
+                    FontSize="17"
                     Grid.Row="1"
                     VerticalOptions="Center"
                     x:Name="CreateResidnetsBtn"
@@ -169,9 +170,12 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <Button
+                    FontSize="17"
+                    x:Name="AddObjectBtn"
+                    Clicked="AddObjectBtn_Clicked"
                     Grid.Row="1"
                     VerticalOptions="Center"
-                    Text="Добавить жильца"></Button>
+                    Text="Добавить предмет"></Button>
             </Grid>
         </Border>
     </Grid>
