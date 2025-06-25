@@ -15,7 +15,7 @@
                 <Label Text="Логин"
                        FontSize="Caption"/>
                 <Entry x:Name="UsernameEntry"
-                       Placeholder="Введите почту"
+                       Placeholder="Введите логин"
                        Keyboard="Email"
                        ClearButtonVisibility="WhileEditing"/>
             </VerticalStackLayout>

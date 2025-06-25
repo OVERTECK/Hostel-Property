@@ -38,8 +38,8 @@ namespace HostelProperty.DataAccess.Repositories
         {
             return await myDbContext.Residents
                 .AsNoTracking()
-                .Where(
-                    c => c.FirstName.Contains(searchText) ||
+                .Where(c => 
+                    c.FirstName.Contains(searchText) ||
                     c.MiddleName.Contains(searchText) ||
                     c.LastName.Contains(searchText))
                 .ToListAsync();

@@ -28,7 +28,11 @@ public partial class SelectResidentPage : ContentPage
 
 		if (string.IsNullOrEmpty(searchText))
 		{
-			return;
+            var residentsAll = await ResidentService.GetResidents();
+
+            ResidentsCollection.ItemsSource = residentsAll;
+
+            return;
 		}
 
 		var searchedResident = await ResidentService.GetResidentsByFIO(searchText);

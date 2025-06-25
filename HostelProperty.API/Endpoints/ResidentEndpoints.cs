@@ -12,12 +12,22 @@ public static class ResidentEndpoints
 
         group.MapGet("/", async (ResidentRepository residentRepository) =>
         {
-            return await residentRepository.GetAll();
+            var residents = await residentRepository.GetAll();
+
+            if (residents == null)
+                return Results.NotFound();
+
+            return Results.Ok(residents);
         });
 
         group.MapGet("/fio/{searchText}", async (string searchText, ResidentRepository residentRepository) =>
         {
-            return residentRepository.GetByFIO(searchText);
+            var searchedResidents = await residentRepository.GetByFIO(searchText);
+
+            if (searchedResidents == null)
+                return Results.NotFound();
+
+            return Results.Ok(searchedResidents);
         });
 
         group.MapGet("/{id}", async (Guid id, ResidentRepository residentRepository) =>
